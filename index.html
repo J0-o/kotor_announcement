@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Since KOTOR Remake Announcement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      color: #fff;
+      font-family: "Exo 2", "Segoe UI", system-ui, -apple-system, sans-serif;
+      text-align: center;
+      gap: 16px;
+      padding: 24px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 5vw, 48px);
+      letter-spacing: 0.01em;
+    }
+    .timer {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      font-size: clamp(32px, 10vw, 96px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      flex-wrap: wrap;
+    }
+    .unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+    }
+    .label {
+      margin-top: 6px;
+      font-size: clamp(12px, 3vw, 16px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #b0b0b0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Time Since <a href="https://www.starwars.com/games-apps/knights-of-the-old-republic" style="color: inherit; text-decoration: underline;">Knights of the Old Republic Remake</a> Announcement</h1>
+  <div class="timer" id="timer">
+    <div class="unit"><span id="days">-</span><span class="label">Days</span></div>
+    <div class="unit"><span id="hours">-</span><span class="label">Hours</span></div>
+    <div class="unit"><span id="minutes">-</span><span class="label">Minutes</span></div>
+    <div class="unit"><span id="seconds">-</span><span class="label">Seconds</span></div>
+  </div>
+
+  <script>
+    // Announcement time: September 9, 2021, 01:04 PM PDT (UTC-7)
+    const announcement = new Date('2021-09-09T13:04:00-07:00').getTime();
+
+    const els = {
+      days: document.getElementById('days'),
+      hours: document.getElementById('hours'),
+      minutes: document.getElementById('minutes'),
+      seconds: document.getElementById('seconds'),
+    };
+
+    const fmt = (value) => String(Math.floor(value)).padStart(2, '0');
+
+    function tick() {
+      const now = Date.now();
+      const diff = Math.max(0, now - announcement);
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      els.days.textContent = days;
+      els.hours.textContent = fmt(hours);
+      els.minutes.textContent = fmt(minutes);
+      els.seconds.textContent = fmt(seconds);
+
+      requestAnimationFrame(tick);
+    }
+
+    tick();
+  </script>
+</body>
+</html>
